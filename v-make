@@ -1,0 +1,96 @@
+#!/usr/bin/env node
+const fs = require("fs");
+const menus = {
+  help: `
+      v-make [command] <options>
+  
+      component, -c .............. create a new component in components directory.
+      module, -m    .............. create a new store module in store/modules directory and update it in index.js in store directory.
+      version, -v   .............. show package version.
+      help, -h      .............. show help menu for a command.
+      `,
+  componentHelp: `
+      Usage : v-make component [-c] NAME [DIR/NAME]
+      
+      Create a new component.
+      `,
+  createComponent: path => {
+    const file = path.split("/")[path.split("/").length - 1];
+    const dir = path.split(`/`);
+    dir.splice(-1, 1);
+    const content = `<template>
+</template>
+
+<script>
+export default {
+  name: "${file}",
+};
+</script>
+
+<style scoped>
+</style>`;
+
+    if (path.split("/").length > 1) {
+      if (fs.existsSync(`./src/components/${path}.vue`)) {
+        console.log("\x1b[31m", `Component ${file} already exists.`);
+        return process.exit(1);
+      }
+
+      fs.mkdirSync(`./src/components/${dir.join("/")}`);
+      return fs.writeFile(`./src/components/${path}.vue`, content, err => {
+        if (err) {
+          console.log(err);
+          return process.exit(1);
+        }
+        console.log("\x1b[32m", `Component ${file} successful created.`);
+      });
+    } else {
+      if (fs.existsSync(`./src/components/${file}.vue`)) {
+        console.log("\x1b[31m", `Component ${file} already exists.`);
+        return process.exit(1);
+      }
+
+      return fs.writeFile(`./src/components/${file}.vue`, content, err => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("\x1b[32m", `Component ${file} successful created.`);
+      });
+    }
+  }
+};
+
+//Main Process
+if (process.argv.length > 2) {
+  switch (process.argv[2]) {
+    //Component
+    case "-c":
+    case "component":
+      if (process.argv[3]) {
+        if (!fs.existsSync("./src/components")) {
+          fs.mkdirSync("./src/components");
+          return menus.createComponent(process.argv[3]);
+        }
+        menus.createComponent(process.argv[3]);
+      } else {
+        console.log(menus.componentHelp);
+        process.exit(1);
+      }
+      break;
+    //Module
+    case "-m":
+    case "module":
+      console.log("\x1b[32m", "Module successful created.");
+      break;
+    default:
+      console.log(menus.help);
+      process.exit(1);
+      break;
+  }
+} else {
+  console.log(menus.help);
+  process.exit(1);
+}
+//Task todo
+// 1. vue-make a new component in components directory.
+// 2. vue-make a new store module in store/modules directory and validate it if vuex has installed.

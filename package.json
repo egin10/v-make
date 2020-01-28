@@ -1,0 +1,12 @@
+{
+  "name": "@egin10/v-make",
+  "version": "0.1",
+  "description": "Command line to help us to create component, module, etc with simple way",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Ginanjar S.B",
+  "license": "MIT"
+}

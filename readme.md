@@ -1,0 +1,49 @@
+# v-make
+
+**v-make** is a command line that will help you to create component with scaffold structure, create module in your store and then automaticatly update the store after the module has created.
+
+## CLI Commands
+
+### Component
+
+Create a new component with a simple way, you just need to type comannd below.
+
+```
+node v-make component NewComponent
+```
+
+or you can try with another simple way.
+
+```
+node v-make -c NewComponent
+```
+
+The comannd above will create a new component in directory `src/componenets`. if you want to create a new component in new directory, you can try with the command below.
+
+```
+node v-make -c newDir/NewComponent
+```
+
+The command above will create new component in `src/components/newDir` and the component file's name is `NewComponent.vue`. The `newDir` can more than one directory. If you want to create it deep in, you can type `newDir/newDir/NewComponent`.
+
+### More
+
+You can show the command list with the command below.
+
+```
+node v-make help
+```
+
+or
+
+```
+node v-make -h
+```
+
+## Contribution
+
+Please make sure to read the [Contributing Guide](./contributing.md) before making a pull request.
+
+## License
+
+[MIT](./LICENSE)
