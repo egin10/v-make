@@ -2,6 +2,16 @@
 
 **v-make** is a command line that will help you to create component with scaffold structure, create module in your store and then automaticatly update the store after the module has created.
 
+## Installation
+
+You can install the v-make by download the file `v-make` in to your project root directory. Make sure you have install `curl` and you can download it with command below :
+
+```
+curl https://raw.githubusercontent.com/egin10/v-make/master/v-make --output v-make
+```
+
+If the file has downloaded. You can try to check the version with `node v-make -v`.
+
 ## CLI Commands
 
 ### Component
