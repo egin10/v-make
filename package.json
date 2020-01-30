@@ -8,5 +8,8 @@
   },
   "keywords": [],
   "author": "Ginanjar S.B",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "vuex": "^3.1.2"
+  }
 }

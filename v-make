@@ -57,6 +57,58 @@ export default {
         console.log("\x1b[32m", `Component ${file} successful created.`);
       });
     }
+  },
+  moduleHelp: `
+      Usage : v-make module [-m] NAME [DIR/NAME]
+      
+      Create a new module in store/modules directory.
+      `,
+  createModule: path => {
+    const file = path.split("/")[path.split("/").length - 1];
+    const dir = path.split(`/`);
+    dir.splice(-1, 1);
+    const content = `const state = {};
+
+const getters = {};
+
+const actions = {};
+
+const mutations = {};
+
+export default {
+  state,
+  getters,
+  actions,
+  mutations
+};`;
+
+    if (path.split("/").length > 1) {
+      if (fs.existsSync(`./src/store/modules/${path}.js`)) {
+        console.log("\x1b[31m", `Module ${file} already exists.`);
+        return process.exit(1);
+      }
+
+      fs.mkdirSync(`./src/store/modules/${dir.join("/")}`);
+      return fs.writeFile(`./src/store/modules/${path}.js`, content, err => {
+        if (err) {
+          console.log(err);
+          return process.exit(1);
+        }
+        console.log("\x1b[32m", `Module ${file} successful created.`);
+      });
+    } else {
+      if (fs.existsSync(`./src/store/modules/${file}.js`)) {
+        console.log("\x1b[31m", `Module ${file} already exists.`);
+        return process.exit(1);
+      }
+
+      return fs.writeFile(`./src/store/modules/${file}.js`, content, err => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log("\x1b[32m", `Module ${file} successful created.`);
+      });
+    }
   }
 };
 
@@ -71,26 +123,44 @@ if (process.argv.length > 2) {
           fs.mkdirSync("./src/components");
           return menus.createComponent(process.argv[3]);
         }
-        menus.createComponent(process.argv[3]);
+        return menus.createComponent(process.argv[3]);
       } else {
         console.log(menus.componentHelp);
-        process.exit(1);
+        return process.exit(1);
       }
       break;
     //Module
     case "-m":
     case "module":
-      console.log("\x1b[32m", "Module successful created.");
+      if (process.argv[3]) {
+        const { dependencies } = require("./package.json");
+        if (dependencies.hasOwnProperty("vuex")) {
+          if (
+            !fs.existsSync("./src/store") &&
+            !fs.existsSync("./src/store/modules")
+          ) {
+            fs.mkdirSync("./src/store");
+            fs.mkdirSync("./src/store/modules");
+            return menus.createModule(process.argv[3]);
+          }
+          menus.createModule(process.argv[3]);
+        } else {
+          console.log(
+            "\x1b[31m",
+            "Please install vuex before create new module"
+          );
+        }
+      } else {
+        console.log(menus.moduleHelp);
+        return process.exit(1);
+      }
       break;
     default:
       console.log(menus.help);
-      process.exit(1);
+      return process.exit(1);
       break;
   }
 } else {
   console.log(menus.help);
   process.exit(1);
 }
-//Task todo
-// 1. vue-make a new component in components directory.
-// 2. vue-make a new store module in store/modules directory and validate it if vuex has installed.
