@@ -31,31 +31,39 @@ export default {
 </style>`;
 
     if (path.split("/").length > 1) {
-      if (fs.existsSync(`./src/components/${path}.vue`)) {
+      if (fs.existsSync(`${process.cwd()}/src/components/${path}.vue`)) {
         console.log("\x1b[31m", `Component ${file} already exists.`);
         return process.exit(1);
       }
 
-      fs.mkdirSync(`./src/components/${dir.join("/")}`);
-      return fs.writeFile(`./src/components/${path}.vue`, content, err => {
-        if (err) {
-          console.log(err);
-          return process.exit(1);
+      fs.mkdirSync(`${process.cwd()}/src/components/${dir.join("/")}`);
+      return fs.writeFile(
+        `${process.cwd()}/src/components/${path}.vue`,
+        content,
+        err => {
+          if (err) {
+            console.log(err);
+            return process.exit(1);
+          }
+          console.log("\x1b[32m", `Component ${file} successful created.`);
         }
-        console.log("\x1b[32m", `Component ${file} successful created.`);
-      });
+      );
     } else {
-      if (fs.existsSync(`./src/components/${file}.vue`)) {
+      if (fs.existsSync(`${process.cwd()}/src/components/${file}.vue`)) {
         console.log("\x1b[31m", `Component ${file} already exists.`);
         return process.exit(1);
       }
 
-      return fs.writeFile(`./src/components/${file}.vue`, content, err => {
-        if (err) {
-          return console.log(err);
+      return fs.writeFile(
+        `${process.cwd()}/src/components/${file}.vue`,
+        content,
+        err => {
+          if (err) {
+            return console.log(err);
+          }
+          console.log("\x1b[32m", `Component ${file} successful created.`);
         }
-        console.log("\x1b[32m", `Component ${file} successful created.`);
-      });
+      );
     }
   },
   moduleHelp: `
@@ -83,31 +91,39 @@ export default {
 };`;
 
     if (path.split("/").length > 1) {
-      if (fs.existsSync(`./src/store/modules/${path}.js`)) {
+      if (fs.existsSync(`${process.cwd()}/src/store/modules/${path}.js`)) {
         console.log("\x1b[31m", `Module ${file} already exists.`);
         return process.exit(1);
       }
 
-      fs.mkdirSync(`./src/store/modules/${dir.join("/")}`);
-      return fs.writeFile(`./src/store/modules/${path}.js`, content, err => {
-        if (err) {
-          console.log(err);
-          return process.exit(1);
+      fs.mkdirSync(`${process.cwd()}/src/store/modules/${dir.join("/")}`);
+      return fs.writeFile(
+        `${process.cwd()}/src/store/modules/${path}.js`,
+        content,
+        err => {
+          if (err) {
+            console.log(err);
+            return process.exit(1);
+          }
+          console.log("\x1b[32m", `Module ${file} successful created.`);
         }
-        console.log("\x1b[32m", `Module ${file} successful created.`);
-      });
+      );
     } else {
-      if (fs.existsSync(`./src/store/modules/${file}.js`)) {
+      if (fs.existsSync(`${process.cwd()}/src/store/modules/${file}.js`)) {
         console.log("\x1b[31m", `Module ${file} already exists.`);
         return process.exit(1);
       }
 
-      return fs.writeFile(`./src/store/modules/${file}.js`, content, err => {
-        if (err) {
-          return console.log(err);
+      return fs.writeFile(
+        `${process.cwd()}/src/store/modules/${file}.js`,
+        content,
+        err => {
+          if (err) {
+            return console.log(err);
+          }
+          console.log("\x1b[32m", `Module ${file} successful created.`);
         }
-        console.log("\x1b[32m", `Module ${file} successful created.`);
-      });
+      );
     }
   },
   version: "0.0.1"
@@ -120,8 +136,8 @@ if (process.argv.length > 2) {
     case "-c":
     case "component":
       if (process.argv[3]) {
-        if (!fs.existsSync("./src/components")) {
-          fs.mkdirSync("./src/components");
+        if (!fs.existsSync(`${process.cwd()}/src/components`)) {
+          fs.mkdirSync(`${process.cwd()}/src/components`);
           return menus.createComponent(process.argv[3]);
         }
         return menus.createComponent(process.argv[3]);
@@ -134,15 +150,17 @@ if (process.argv.length > 2) {
     case "-m":
     case "module":
       if (process.argv[3]) {
-        const { dependencies } = require("./package.json");
-        if (dependencies.hasOwnProperty("vuex")) {
-          if (
-            !fs.existsSync("./src/store") &&
-            !fs.existsSync("./src/store/modules")
-          ) {
-            fs.mkdirSync("./src/store");
-            fs.mkdirSync("./src/store/modules");
-            return menus.createModule(process.argv[3]);
+        const pjson = require(`${process.cwd()}/package.json`);
+        if (pjson.hasOwnProperty("dependencies")) {
+          if (dependencies.hasOwnProperty("vuex")) {
+            if (
+              !fs.existsSync(`${process.cwd()}/src/store`) &&
+              !fs.existsSync(`${process.cwd()}/src/store/modules`)
+            ) {
+              fs.mkdirSync(`${process.cwd()}/src/store`);
+              fs.mkdirSync(`${process.cwd()}/src/store/modules`);
+              return menus.createModule(process.argv[3]);
+            }
           }
           menus.createModule(process.argv[3]);
         } else {
