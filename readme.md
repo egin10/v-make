@@ -26,6 +26,28 @@ node v-make -c newDir/NewComponent
 
 The command above will create new component in `src/components/newDir` and the component file's name is `NewComponent.vue`. The `newDir` can more than one directory. If you want to create it deep in, you can type `newDir/newDir/NewComponent`.
 
+### Module
+
+Create a new module with a simple way, you just need to type comannd below.
+
+```
+node v-make module NewModule
+```
+
+or you can try with another simple way.
+
+```
+node v-make -m NewModule
+```
+
+The comannd above will create a new module in directory `src/store/modules`. if you want to create a new module in new directory, you can try with the command below.
+
+```
+node v-make -m newDir/NewModule
+```
+
+The command above will create new module in `src/store/modules/newDir` and the module file's name is `NewModule.js`. The `newDir` can more than one directory. If you want to create it deep in, you can type `newDir/newDir/NewModule`.
+
 ### More
 
 You can show the command list with the command below.
