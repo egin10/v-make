@@ -1,6 +1,6 @@
 {
   "name": "@egin10/v-make",
-  "version": "0.1",
+  "version": "0.0.1",
   "description": "Command line to help us to create component, module, etc with simple way",
   "main": "index.js",
   "scripts": {
